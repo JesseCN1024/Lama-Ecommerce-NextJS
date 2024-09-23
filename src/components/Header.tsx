@@ -11,7 +11,7 @@ const Header = () => {
         {/* Mobile */}
         <div className='h-full md:hidden flex items-center justify-between'>
             <Link href="/">
-                <p className='text-2xl tracking-wide'>LAMA</p>
+                <p className='text-2xl tracking-wide'>PALMY</p>
             </Link>
             <Menu /> 
         </div>
@@ -21,7 +21,7 @@ const Header = () => {
           <div className='w-1/3 xl:w-1/2 flex items-center gap-16'>
             <Link href="/" className='flex items-center gap-4'>
               <Image alt="none" src="/logo.png" width={28} height={28} />
-              <p className='text-2xl tracking-wide'>LAMA</p>
+              <p className='text-2xl tracking-wide'>PALMY</p>
             </Link>
             <nav className='hidden xl:flex items-center gap-4 '>
               <Link href="/">HomePage</Link>
