@@ -1,4 +1,5 @@
 import Filter from '@/components/Filter'
+import Loading from '@/components/Loading'
 import ProductList from '@/components/ProductList'
 import { wixClientServer } from '@/lib/wixClientServer'
 import Image from 'next/image'
@@ -22,13 +23,15 @@ const page = async ({searchParams} : {searchParams: any}) => {
         </div>
       </div>
       {/* Fileter */}
-      <Filter /> 
+      <Filter searchParams={searchParams} /> 
       {/* Product List  */}
       <div className='mt-8'>
         <h1 className='font-medium text-2xl my-4'>{cat?.collection?.name} For You</h1>
-        <Suspense fallback={<div>Loading</div>}>
+        <Suspense fallback={<Loading />} key={JSON.stringify(searchParams)}>
           <ProductList 
             categoryID={cat?.collection?._id || process.env.NEXT_PUBLIC_FEATURE_ALLPRODUCT_CATEGORY_ID!}  
+            searchParams={searchParams}
+            limit={8}
           /> 
         </Suspense>
       </div>

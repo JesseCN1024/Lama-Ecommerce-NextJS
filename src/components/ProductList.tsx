@@ -5,20 +5,58 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-const PRODUCT_PER_PAGE = 20
+const PRODUCT_PER_PAGE = 8
 
-async function ProductList({categoryID, limit} :{categoryID:string, limit?:number}) {
+async function ProductList({categoryID, limit, searchParams} :{categoryID:string, limit?:number, searchParams?: any }) {
+
   const wixClient = await wixClientServer();
-  const res = await wixClient.products.queryProducts().eq("collectionIds", categoryID).limit(limit || PRODUCT_PER_PAGE).find();
-  console.log(res);
+  let productQuery = wixClient.products
+    .queryProducts()
+    .startsWith("name", searchParams?.name || "")
+    .eq("collectionIds", categoryID)
+    .hasSome(
+      "productType",
+      searchParams?.type ? [searchParams?.type] : ['digital', 'physical']
+      // ['digital']
+    )
+    .gt("priceData.price", searchParams?.min || 0)
+    .lt("priceData.price", searchParams?.max || 9999999)
+    .limit(limit || PRODUCT_PER_PAGE)
+    .skip(
+      searchParams?.page
+        ? parseInt(searchParams.page) * (limit || PRODUCT_PER_PAGE)
+        : 0
+    );
 
+    
+  if (searchParams?.sort) {
+    const [sortType, sortBy] = searchParams.sort.split("+");
+    console.log(sortType, sortBy); 
+    if (sortType === 'asc') {
+      productQuery = productQuery.ascending(sortBy);
+    }
+    else if (sortType === 'desc') {
+      productQuery = productQuery.descending(sortBy)
+    }
+    console.log(productQuery);
+  }
+
+  // productQuery.ascending('price')
+  // console.log(productQuery);
+
+  const res = await productQuery.find();
+  // console.log(res);
+
+
+  
   return (
     <div className='w-full'>
         {/* <h1 className='font-medium text-xl py-6'>Featured Products</h1> */}
         {/* Product List  */}
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8'>
             {
-                res.items.map((product: products.Product, idx) => (
+                // loading ? <div>Loading...</div> :
+                res?.items.map((product: products.Product, idx) => (
                     <Link key={idx} href={"/"+product.slug} className='w-full flex flex-col gap-4 shadow p-2'>
                         {/* Image */}
                         <div className='relative w-full h-80'>
