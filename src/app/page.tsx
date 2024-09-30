@@ -6,6 +6,7 @@ import { Suspense, useContext, useEffect } from "react"
 import { WixClientContext } from "../context/wixContext"
 import { useWixClient } from "@/hooks/useWixClient"
 import { wixClientServer } from "@/lib/wixClientServer"
+import Loading from "@/components/Loading"
 
 const HomePage = async () => { // server component can use async
   // const wixClient = useWixClient();
@@ -25,7 +26,7 @@ const HomePage = async () => { // server component can use async
       <Slider />
       <div className="px-4 md:px-8 lg:px-16 xl:px-32 my-8">
         <h1 className='font-medium text-xl my-8'>Featured Products</h1>
-        <Suspense fallback={<div>Loading</div>}>
+        <Suspense fallback={<Loading />}>
           <ProductList 
             categoryID={process.env.NEXT_PUBLIC_FEATURE_PRODUCT_CATEGORY_ID || ""} 
             limit={4} 
@@ -34,7 +35,7 @@ const HomePage = async () => { // server component can use async
       </div>
       <div className="my-8">
         <h1 className='font-medium text-xl py-6 px-4 md:px-8 lg:px-16 xl:px-32'>Categories</h1>
-        <Suspense fallback={<div>Loading</div>}>
+        <Suspense fallback={<Loading /> }>
           <CategoryList />
         </Suspense>
       </div>

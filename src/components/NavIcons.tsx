@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import CartModal from './CartModal';
+import { wixClientServer } from '@/lib/wixClientServer';
 const NavIcons = () => {
     const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -20,6 +21,24 @@ const NavIcons = () => {
     }
   };
 
+  // AUTH MANAGE
+  // const login =async () => {
+  //   const wixClient = await wixClientServer();
+  //   // Request information 
+  //   const loginRequestData = wixClient.auth.generateOAuthData(
+  //     "https://localhost:3000",
+  //     // no need for original URIs
+  //   );
+  //   // store data for user navigating back 
+  //   localStorage.setItem("loginRequestData", JSON.stringify(loginRequestData));
+  //   // redirect to Wix login page
+  //   const {authUrl} = await wixClient.auth.getAuthUrl(loginRequestData);
+  //   window.location.href = authUrl;
+  // }
+
+
+
+  
   return (
     <div className="flex items-center gap-4 xl:gap-6 relative">
       <Image

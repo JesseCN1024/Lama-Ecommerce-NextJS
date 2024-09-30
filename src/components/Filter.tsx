@@ -10,8 +10,8 @@ function Filter({searchParams} : {searchParams: any}) {
     const params = new URLSearchParams(searchParams);
     if (!value) params.delete(name);
     else params.set(name, value);
+    params.delete("page");
     replace(`${pathname}?${params.toString()}`)
-    // console.log(pathname+"?"+params.toString());
   };
 
   return (
